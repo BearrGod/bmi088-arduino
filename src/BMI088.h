@@ -25,6 +25,7 @@
 #define BMI088_h
 
 #include "Arduino.h"
+#include <linux/spi/spidev.h>
 #include "Wire.h"  // I2C library
 #include "SPI.h"   // SPI library
 
@@ -70,7 +71,6 @@ class Bmi088Accel {
       ACTIVE_HIGH,
       ACTIVE_LOW
     };
-    Bmi088Accel(TwoWire &bus,uint8_t address);
     Bmi088Accel(SPIClass &bus,uint8_t csPin);
     int begin();
     bool setOdr(Odr odr);
@@ -95,14 +95,9 @@ class Bmi088Accel {
       PIN_INPUT,
       PIN_OUTPUT
     };
-    // i2c
-    uint8_t _address;
-    TwoWire *_i2c;
-    const uint32_t _i2cRate = 400000; // 400 kHz
     // spi
     uint8_t _csPin;
     SPIClass *_spi;
-    bool _useSPI;
     const uint8_t SPI_READ = 0x80;
     const uint32_t SPI_CLOCK = 10000000; // 10 MHz
     // buffer for reading from sensor
@@ -231,7 +226,6 @@ class Bmi088Gyro {
       ACTIVE_HIGH,
       ACTIVE_LOW
     };
-    Bmi088Gyro(TwoWire &bus,uint8_t address);
     Bmi088Gyro(SPIClass &bus,uint8_t csPin);
     int begin();
     bool setOdr(Odr odr);
@@ -252,14 +246,10 @@ class Bmi088Gyro {
       PWR_SUSPEND = 0x80,
       PWR_DEEP_SUSPEND = 0x20
     };
-    // i2c
-    uint8_t _address;
-    TwoWire *_i2c;
-    const uint32_t _i2cRate = 400000; // 400 kHz
+
     // spi
     uint8_t _csPin;
     SPIClass *_spi;
-    bool _useSPI;
     const uint8_t SPI_READ = 0x80;
     const uint32_t SPI_CLOCK = 10000000; // 10 MHz
     // buffer for reading from sensor
